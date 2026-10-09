@@ -1,0 +1,29 @@
+# Core LangChain (0.3 line, same APIs as the CampusX GenAI playlist)
+langchain>=0.3,<0.4
+langchain-core>=0.3,<0.4
+langchain-community>=0.3,<0.4
+langchain-text-splitters>=0.3,<0.4
+
+# Model providers (install the ones you use)
+langchain-openai>=0.3,<0.4      # OpenAI chat + embeddings
+langchain-groq>=0.3,<0.4        # Groq chat (free tier, fast)
+langchain-huggingface>=0.1,<0.4 # free local embeddings (pulls sentence-transformers + torch)
+# langchain-ollama>=0.2,<0.4    # fully local chat + embeddings via Ollama
+
+# Retrieval + loaders
+faiss-cpu>=1.8
+pypdf>=4.0
+beautifulsoup4>=4.12
+requests>=2.31
+
+# API + UI
+fastapi>=0.110
+uvicorn>=0.29
+python-multipart>=0.0.9
+pydantic-settings>=2.2
+python-dotenv>=1.0
+streamlit>=1.35
+
+# Tests
+pytest>=8.0
+httpx>=0.27
