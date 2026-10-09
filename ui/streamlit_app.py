@@ -1,11 +1,15 @@
 """Streamlit chat UI for DocMind.  Run:  streamlit run ui/streamlit_app.py"""
 import os
+import sys
 import uuid
+from pathlib import Path
 
 import requests
 import streamlit as st
 
 API_URL = os.getenv("API_URL", "http://localhost:8000")
+# "embedded" runs the FastAPI app in-process (single-process hosts like Streamlit Community Cloud).
+EMBEDDED = os.getenv("DOCMIND_MODE", "").lower() == "embedded"
 
 st.set_page_config(page_title="DocMind", page_icon="📄", layout="wide")
 st.title("📄 DocMind — chat with your documents")
@@ -15,9 +19,22 @@ if "session_id" not in st.session_state:
     st.session_state.messages = []
 
 
+@st.cache_resource
+def embedded_client():
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from fastapi.testclient import TestClient
+
+    from docmind.api import app
+
+    return TestClient(app, raise_server_exceptions=False)
+
+
 def api(method: str, path: str, **kwargs):
     try:
-        res = requests.request(method, f"{API_URL}{path}", timeout=120, **kwargs)
+        if EMBEDDED:
+            res = embedded_client().request(method, path, **kwargs)
+        else:
+            res = requests.request(method, f"{API_URL}{path}", timeout=120, **kwargs)
     except requests.ConnectionError:
         st.error(f"Backend not reachable at {API_URL}. Start it with: uvicorn docmind.api:app --reload")
         st.stop()
@@ -78,7 +95,8 @@ with chat_tab:
                 if out and out["sources"]:
                     with st.expander("Sources"):
                         for s in out["sources"]:
-                            st.markdown(f"**{s['chunk_id']}** (page {s['page']}) — {s['snippet']}...")
+                            page = f" (page {s['page'] + 1})" if s["page"] is not None else ""
+                            st.markdown(f"**{s['chunk_id']}**{page} — {s['snippet']}...")
             elif mode == "Agent (tools)":
                 out = api("POST", "/agent", json=body)
                 answer = out and out["answer"]

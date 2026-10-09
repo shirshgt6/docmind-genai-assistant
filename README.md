@@ -73,6 +73,17 @@ Docker: `docker compose up --build` (API on 8000, UI on 8501).
 
 Run tests (offline, fake LLM + fake embeddings): `pytest -q`
 
+## Deploy (free, Streamlit Community Cloud)
+
+The UI can run the API in-process, so the whole app deploys as one Streamlit app.
+
+1. Go to [share.streamlit.io](https://share.streamlit.io), sign in with GitHub, click **Create app**.
+2. Repository: this repo, branch `main`, main file `ui/streamlit_app.py`. Under **Advanced settings**
+   choose Python 3.12 and paste the secrets: `DOCMIND_MODE="embedded"`, `LLM_PROVIDER="groq"`,
+   `LLM_MODEL="openai/gpt-oss-20b"`, `GROQ_API_KEY`, `EMBEDDINGS_PROVIDER="fastembed"`,
+   `EMBEDDINGS_MODEL="BAAI/bge-small-en-v1.5"`.
+3. Deploy. The free tier has no persistent disk, so uploaded documents reset when the app restarts.
+
 ## API
 
 | Method | Path | What it does |

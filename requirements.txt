@@ -10,6 +10,8 @@ langchain-groq>=0.3,<0.4        # Groq chat (free tier, fast)
 langchain-huggingface>=0.1,<0.4 # free local embeddings (pulls sentence-transformers + torch)
 langchain-ollama>=0.2,<0.4      # local chat + embeddings via Ollama
 
+fastembed>=0.4                  # light ONNX embeddings for cloud deploys
+
 # Retrieval + loaders
 faiss-cpu>=1.8
 pypdf>=4.0

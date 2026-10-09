@@ -36,6 +36,11 @@ def get_embeddings(settings: Settings | None = None) -> Embeddings:
         from langchain_huggingface import HuggingFaceEmbeddings
 
         return HuggingFaceEmbeddings(model_name=s.embeddings_model)
+    if provider == "fastembed":
+        # Small ONNX models, no torch: fits free cloud hosting (Streamlit Community Cloud).
+        from langchain_community.embeddings import FastEmbedEmbeddings
+
+        return FastEmbedEmbeddings(model_name=s.embeddings_model)
     if provider == "openai":
         from langchain_openai import OpenAIEmbeddings
 
@@ -45,5 +50,5 @@ def get_embeddings(settings: Settings | None = None) -> Embeddings:
 
         return OllamaEmbeddings(model=s.embeddings_model, base_url=s.ollama_base_url)
     raise ValueError(
-        f"Unknown EMBEDDINGS_PROVIDER '{s.embeddings_provider}' (use huggingface | openai | ollama)"
+        f"Unknown EMBEDDINGS_PROVIDER '{s.embeddings_provider}' (use huggingface | fastembed | openai | ollama)"
     )
