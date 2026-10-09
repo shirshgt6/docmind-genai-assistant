@@ -8,7 +8,7 @@ langchain-text-splitters>=0.3,<0.4
 langchain-openai>=0.3,<0.4      # OpenAI chat + embeddings
 langchain-groq>=0.3,<0.4        # Groq chat (free tier, fast)
 langchain-huggingface>=0.1,<0.4 # free local embeddings (pulls sentence-transformers + torch)
-# langchain-ollama>=0.2,<0.4    # fully local chat + embeddings via Ollama
+langchain-ollama>=0.2,<0.4      # local chat + embeddings via Ollama
 
 # Retrieval + loaders
 faiss-cpu>=1.8
