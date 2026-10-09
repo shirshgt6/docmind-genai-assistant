@@ -1,5 +1,7 @@
 # DocMind — LangChain RAG & Agent Document Assistant
 
+**Live demo:** https://docmind-shirsh.streamlit.app
+
 Upload PDFs, text files or web pages and **chat with them**: answers are grounded in your
 documents with **citations**, follow-up questions keep **conversation memory**, a **router**
 picks the right pipeline (Q&A / summary / extraction), and a **tool-calling agent** can search
